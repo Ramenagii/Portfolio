@@ -1,21 +1,13 @@
 export default function Footer() {
   return (
-    <footer className="bg-transparent text-gray-400 py-4 text-center">
-      <p className="text-sm">
-        © 2025 Justin |{" "}
-        <a
-          href="https://github.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-yellow-400 hover:underline"
-        >
+    <footer className="site-footer">
+      <p>Justin R. Lorenzo</p>
+      <div>
+        <a href="https://github.com/Ramenagii" target="_blank" rel="noreferrer">
           GitHub
-        </a>{" "}
-        |{" "}
-        <a href="#top" className="text-yellow-400 hover:underline">
-          Back to Top
         </a>
-      </p>
+        <a href="mailto:johnjustinrl15@gmail.com">Email</a>
+      </div>
     </footer>
   );
 }

@@ -1,276 +1,115 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
-import { FiMail, FiLinkedin, FiGithub, FiSend, FiCheckCircle, FiAlertCircle } from "react-icons/fi";
-import * as emailjs from '@emailjs/browser';
+import { useState } from "react";
+
+const contactLinks = [
+  {
+    label: "Email",
+    value: "johnjustinrl15@gmail.com",
+    href: "mailto:johnjustinrl15@gmail.com",
+  },
+  {
+    label: "GitHub",
+    value: "github.com/Ramenagii",
+    href: "https://github.com/Ramenagii",
+  },
+  {
+    label: "Location",
+    value: "Bulacan, Philippines",
+    href: null,
+  },
+];
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [error, setError] = useState(null);
+  const [formStatus, setFormStatus] = useState("idle");
+  const [statusMessage, setStatusMessage] = useState("");
 
-  // These values are hardcoded based on your provided credentials
-  const EMAILJS_PUBLIC_KEY = 'm9GfbucyX_376WnYu';
-  const EMAILJS_SERVICE_ID = 'service_6l06v78';
-  const EMAILJS_TEMPLATE_ID = 'template_6blczcb';
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setFormStatus("sending");
+    setStatusMessage("");
 
-  // Initialize EmailJS
-  useEffect(() => {
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const payload = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      message: formData.get("message"),
+    };
+
     try {
-      emailjs.init(EMAILJS_PUBLIC_KEY);
-      console.log("EmailJS initialized successfully");
-    } catch (err) {
-      console.error("Failed to initialize EmailJS:", err);
-      setError("Email service initialization failed. Please try again later.");
-    }
-  }, []);
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = await response.json();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError(null);
-    
-    try {
-      // Format time for the email
-      const currentTime = new Date().toLocaleString();
-      
-      // Prepare template parameters - matching the names in your template
-      const templateParams = {
-        name: formData.name,       // Name parameter for template
-        email: formData.email,     // Email parameter for template
-        message: formData.message, // Message parameter for template
-        time: currentTime          // Time parameter for template
-      };
-      
-      // Send email using EmailJS
-      const response = await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        templateParams
-      );
-      
-      console.log("Email sent successfully:", response);
-      
-      // Reset form on success
-      setIsSubmitted(true);
-      setFormData({ name: "", email: "", message: "" });
-      
-      // Reset submission status after 5 seconds
-      setTimeout(() => setIsSubmitted(false), 5000);
-    } catch (err) {
-      console.error("Email sending failed:", err);
-      setError("Failed to send message. Please try again later.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+      if (!response.ok) {
+        throw new Error(result.error || "Unable to send message.");
+      }
 
-  const handleInput = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+      form.reset();
+      setFormStatus("sent");
+      setStatusMessage("Message sent. Thank you for reaching out.");
+    } catch (error) {
+      setFormStatus("error");
+      setStatusMessage(error.message);
+    }
   };
 
   return (
-    <section id="contact" className="min-h-screen px-6 sm:px-12 py-16 bg-[#121212] text-gray-200 relative overflow-hidden">
-      {/* Animated Background Particles */}
-      <div className="absolute inset-0 opacity-10">
-        {[...Array(15)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-yellow-400 rounded-full"
-            animate={{
-              y: [0, 40, 0],
-              opacity: [0.2, 1, 0.2],
-            }}
-            transition={{
-              duration: 2 + Math.random() * 3,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-          />
-        ))}
+    <section id="contact" className="page-shell content-page contact-page">
+      <div className="section-intro reveal">
+        <p className="eyebrow">Contact</p>
+        <h1>Have a project, school collaboration, or build idea?</h1>
+        <p>
+          Send a clear message with the goal, timeline, and links. I am open to
+          student projects, front-end work, and practical engineering builds.
+        </p>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true }}
-        className="max-w-2xl mx-auto relative"
-      >
-        {/* Section Header */}
-        <div className="mb-12 text-center">
-          <motion.h2 
-            className="text-4xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent"
-            whileHover={{ scale: 1.05 }}
-          >
-            Let's Build Tomorrow 🚀
-          </motion.h2>
-          <motion.p 
-            className="text-lg mb-8 text-gray-400"
-            whileHover={{ x: 5 }}
-          >
-            "The best way to predict the future is to create it."<br />
-            - Abraham Lincoln
-          </motion.p>
-        </div>
-
-        {/* Interactive Form Container */}
-        <motion.form 
+      <div className="contact-layout reveal">
+        <form
+          className="contact-form"
           onSubmit={handleSubmit}
-          className="space-y-6 bg-[#1f1f1f]/50 backdrop-blur-sm p-8 rounded-2xl border border-yellow-400/20 shadow-2xl shadow-yellow-400/10"
-          onHoverStart={() => setIsHovered(true)}
-          onHoverEnd={() => setIsHovered(false)}
         >
-          <AnimatePresence>
-            {isHovered && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="absolute inset-0 bg-gradient-to-r from-yellow-400/5 to-transparent -z-10"
-              />
-            )}
-          </AnimatePresence>
-
-          {/* Form Inputs */}
-          <motion.div whileHover={{ scale: 1.01 }}>
-            <input
-              name="name"
-              value={formData.name}
-              placeholder="Your Name"
-              className="w-full bg-[#2d2d2d] p-4 rounded-xl border border-yellow-400/20 focus:border-yellow-400 focus:outline-none placeholder-gray-500"
-              onChange={handleInput}
-              required
-            />
-          </motion.div>
-
-          <motion.div whileHover={{ scale: 1.01 }}>
-            <input
-              name="email"
-              type="email"
-              value={formData.email}
-              placeholder="your.email@domain.com"
-              className="w-full bg-[#2d2d2d] p-4 rounded-xl border border-yellow-400/20 focus:border-yellow-400 focus:outline-none placeholder-gray-500"
-              onChange={handleInput}
-              required
-            />
-          </motion.div>
-
-          <motion.div whileHover={{ scale: 1.01 }}>
-            <textarea
-              name="message"
-              rows="4"
-              value={formData.message}
-              placeholder="Your vision starts here..."
-              className="w-full bg-[#2d2d2d] p-4 rounded-xl border border-yellow-400/20 focus:border-yellow-400 focus:outline-none placeholder-gray-500"
-              onChange={handleInput}
-              required
-            />
-          </motion.div>
-
-          {/* Submit Button */}
-          <motion.button
-            type="submit"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            disabled={isSubmitting || !Object.values(formData).every(Boolean)}
-            className={`w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all
-              ${isSubmitting || !Object.values(formData).every(Boolean) 
-                ? "bg-gray-800 text-gray-500 cursor-not-allowed" 
-                : "bg-yellow-400 text-black hover:bg-yellow-500"}`}
-          >
-            {isSubmitting ? (
-              <motion.div 
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity }}
-                className="w-5 h-5 border-2 border-black rounded-full border-t-transparent"
-              />
-            ) : (
-              <>
-                <FiSend className="text-xl" />
-                {Object.values(formData).every(Boolean) ? "Launch Message" : "Complete All Fields"}
-              </>
-            )}
-          </motion.button>
-        </motion.form>
-
-        {/* Social Connections */}
-        <motion.div 
-          className="mt-12 flex flex-col items-center gap-6"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-        >
-          <p className="text-gray-400">Or connect directly:</p>
-          
-          <div className="flex gap-6">
-            <motion.a
-              href="https://linkedin.com/in/your-profile"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 rounded-full bg-[#2d2d2d] hover:bg-yellow-400 transition-colors"
-              whileHover={{ scale: 1.1 }}
-            >
-              <FiLinkedin className="text-2xl" />
-            </motion.a>
-
-            <motion.a
-              href="https://github.com/your-profile"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 rounded-full bg-[#2d2d2d] hover:bg-yellow-400 transition-colors"
-              whileHover={{ scale: 1.1 }}
-            >
-              <FiGithub className="text-2xl" />
-            </motion.a>
-
-            <motion.a
-              href="mailto:your.email@domain.com"
-              className="p-3 rounded-full bg-[#2d2d2d] hover:bg-yellow-400 transition-colors"
-              whileHover={{ scale: 1.1 }}
-            >
-              <FiMail className="text-2xl" />
-            </motion.a>
-          </div>
-        </motion.div>
-
-        {/* Submission Feedback */}
-        <AnimatePresence>
-          {isSubmitted && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="mt-8 p-4 bg-green-900/50 text-green-400 rounded-xl flex items-center gap-3 border border-green-400/20"
-            >
-              <FiCheckCircle className="text-2xl flex-shrink-0" />
-              <div>
-                <p className="font-semibold">Message received! 🎉</p>
-                <p className="text-sm mt-1">Let's make amazing things happen - I'll respond within 24 hours!</p>
-              </div>
-            </motion.div>
+          <label>
+            Name
+            <input name="name" type="text" placeholder="Your name" required />
+          </label>
+          <label>
+            Email
+            <input name="email" type="email" placeholder="you@example.com" required />
+          </label>
+          <label>
+            Message
+            <textarea name="message" rows="6" placeholder="Tell me what you want to build" required />
+          </label>
+          <button className="button primary" type="submit" disabled={formStatus === "sending"}>
+            {formStatus === "sending" ? "Sending..." : "Send message"}
+          </button>
+          {statusMessage && (
+            <p className={`form-status ${formStatus === "error" ? "error" : "success"}`}>
+              {statusMessage}
+            </p>
           )}
+        </form>
 
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="mt-8 p-4 bg-red-900/50 text-red-400 rounded-xl flex items-center gap-3 border border-red-400/20"
-            >
-              <FiAlertCircle className="text-2xl flex-shrink-0" />
-              <div>
-                <p className="font-semibold">Oops! Something went wrong.</p>
-                <p className="text-sm mt-1">{error}</p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
+        <aside className="contact-card">
+          <h2>Direct links</h2>
+          {contactLinks.map((item) => (
+            <div key={item.label}>
+              <span>{item.label}</span>
+              {item.href ? (
+                <a href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
+                  {item.value}
+                </a>
+              ) : (
+                <p>{item.value}</p>
+              )}
+            </div>
+          ))}
+        </aside>
+      </div>
     </section>
   );
 }

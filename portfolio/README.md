@@ -1,12 +1,61 @@
-# React + Vite
+# Justin R. Lorenzo Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A refined personal portfolio for Justin R. Lorenzo, a Computer Engineering student focused on front-end development, practical student tools, and technical project presentation.
 
-Currently, two official plugins are available:
+Live site: https://jjrlorenzo.vercel.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Design Direction
 
-## Expanding the ESLint configuration
+This revision is inspired by the calm editorial language of `alchaincyf/huashu-design`: warm off-white surfaces, subtle gold accents, thin borders, soft shadows, light typography, and generous whitespace.
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech Stack
+
+- React
+- Vite
+- Tailwind CSS
+- Vercel Serverless Functions
+- Resend
+
+## Pages
+
+- Home: short professional introduction and quick highlights
+- About: profile, focus areas, and tools
+- Work: selected project cards with summaries and stacks
+- Resume: education, experience, contributions, and skills
+- Notes: short writing prompts for future blog entries
+- Contact: direct links and backend-powered contact form
+
+## Getting Started
+
+```bash
+npm install
+npm run dev
+```
+
+## Production Build
+
+```bash
+npm run build
+npm run preview
+```
+
+## Contact Form Environment
+
+The contact form posts to `/api/contact` and sends email through Resend.
+
+Set these variables in Vercel:
+
+```bash
+RESEND_API_KEY=your_resend_api_key
+CONTACT_TO_EMAIL=johnjustinrl15@gmail.com
+CONTACT_FROM_EMAIL=Portfolio <onboarding@resend.dev>
+```
+
+For production, replace `CONTACT_FROM_EMAIL` with a verified sender/domain in Resend.
+
+## Suggested Next Updates
+
+- Add live demo links for each project.
+- Add individual GitHub repository links per project.
+- Replace placeholder project screenshots with polished case-study images.
+- Add a downloadable resume PDF if you want the resume button to link to a file.
