@@ -9,6 +9,8 @@
   --gold: #d4a574;
   --soft-gold: #f0ebe3;
   --shadow: 0 4px 24px rgba(42, 42, 40, 0.05);
+  --shadow-lift: 0 18px 48px rgba(42, 42, 40, 0.1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 * {
@@ -81,6 +83,34 @@ textarea {
   font-size: 12px;
   letter-spacing: 0.01em;
   transition: color 180ms ease, border-color 180ms ease;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 5px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.52);
+}
+
+.nav-links a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.01em;
+  transition: color 180ms ease, background 180ms ease;
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible {
+  background: var(--paper);
+  color: var(--ink);
 }
 
 .nav-cta {
@@ -171,11 +201,21 @@ textarea {
   font-size: 13px;
   font-weight: 400;
   letter-spacing: 0.02em;
-  transition: background 180ms ease, color 180ms ease, border-color 180ms ease, transform 180ms ease;
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
 }
 
 .button:hover {
   transform: translateY(-2px);
+}
+
+.button:focus-visible,
+.nav-cta:focus-visible,
+.brand-mark:focus-visible,
+.project-actions a:focus-visible,
+.site-footer a:focus-visible,
+.contact-card a:focus-visible {
+  outline: 2px solid rgba(212, 165, 116, 0.55);
+  outline-offset: 4px;
 }
 
 .button.primary {
@@ -212,6 +252,30 @@ textarea {
   box-shadow: 0 24px 80px rgba(42, 42, 40, 0.07);
   padding: 24px;
   animation: fade-left 850ms ease 180ms both;
+}
+
+.hero-scene {
+  position: relative;
+  min-height: 174px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 22% 24%, rgba(212, 165, 116, 0.22), transparent 32%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(240, 235, 227, 0.6));
+}
+
+.hero-scene::before {
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(42, 42, 40, 0.07);
+  content: "";
+  pointer-events: none;
+}
+
+.hero-scene canvas {
+  display: block;
+  width: 100%;
+  height: 174px;
 }
 
 .profile-row {
@@ -512,7 +576,7 @@ textarea {
 .reveal {
   opacity: 0;
   transform: translateY(26px);
-  transition: opacity 720ms ease, transform 720ms ease;
+  transition: opacity 720ms var(--ease-out), transform 720ms var(--ease-out);
 }
 
 .reveal.is-visible {
@@ -527,7 +591,7 @@ textarea {
 .contact-card,
 .contact-form,
 .timeline article {
-  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  transition: transform 220ms var(--ease-out), box-shadow 220ms ease, border-color 220ms ease;
 }
 
 .minimal-card:hover,
@@ -539,7 +603,7 @@ textarea {
 .timeline article:hover {
   transform: translateY(-3px);
   border-color: rgba(212, 165, 116, 0.28);
-  box-shadow: 0 12px 34px rgba(42, 42, 40, 0.07);
+  box-shadow: var(--shadow-lift);
 }
 
 .tool-cloud,
@@ -575,6 +639,13 @@ textarea {
   height: 100%;
   object-fit: cover;
   filter: saturate(0.92);
+  transform: scale(1.01);
+  transition: transform 600ms var(--ease-out), filter 220ms ease;
+}
+
+.project-card:hover .project-media img {
+  filter: saturate(1.04);
+  transform: scale(1.045);
 }
 
 .project-content {
@@ -612,6 +683,12 @@ textarea {
   color: var(--ink);
   font-size: 13px;
   border-bottom: 1px solid var(--gold);
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.project-actions a:hover {
+  color: var(--gold);
+  border-color: rgba(212, 165, 116, 0.34);
 }
 
 .timeline {
@@ -669,11 +746,14 @@ textarea {
   color: var(--ink);
   padding: 14px 16px;
   outline: none;
+  transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
+  background: var(--paper);
   border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.12);
 }
 
 .form-status {
@@ -729,6 +809,17 @@ textarea {
     padding: 14px 20px;
   }
 
+  .nav-links {
+    order: 2;
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+
+  .nav-cta {
+    order: 3;
+  }
+
   .hero-page,
   .split-layout,
   .resume-grid,
@@ -781,7 +872,7 @@ textarea {
   }
 
   .site-nav {
-    align-items: flex-start;
+    align-items: stretch;
     flex-direction: column;
     gap: 10px;
     min-height: auto;
@@ -793,12 +884,20 @@ textarea {
   }
 
   .nav-cta {
+    width: max-content;
     max-width: 100%;
     overflow-wrap: anywhere;
-    padding: 0;
-    border: 0;
-    color: var(--ink);
+    color: var(--muted);
     font-size: 12px;
+  }
+
+  .nav-links {
+    gap: 4px;
+  }
+
+  .nav-links a {
+    min-height: 34px;
+    padding: 0 10px;
   }
 
   .page-shell {
@@ -873,6 +972,12 @@ textarea {
 
   .summary-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero-scene,
+  .hero-scene canvas {
+    min-height: 148px;
+    height: 148px;
   }
 
   .summary-grid > div {
@@ -969,6 +1074,10 @@ textarea {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 1ms !important;
+  }
+
+  .portrait-card {
+    animation: none !important;
   }
 }
 

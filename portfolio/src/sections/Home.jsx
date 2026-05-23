@@ -1,3 +1,5 @@
+import HeroScene from "../components/HeroScene";
+
 const stats = [
   { value: "3", suffix: "+", label: "Featured builds" },
   { value: "2027", suffix: "", label: "CpE graduation" },
@@ -58,6 +60,8 @@ export default function Home() {
             <p className="card-label">React interfaces and project systems</p>
           </div>
         </div>
+
+        <HeroScene />
 
         <div className="capability-panel">
           <p className="eyebrow">Tools</p>
