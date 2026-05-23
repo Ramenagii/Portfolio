@@ -2,7 +2,7 @@
 
 A refined personal portfolio for Justin R. Lorenzo, a Computer Engineering student focused on front-end development, practical student tools, and technical project presentation.
 
-Live site: https://jjrlorenzo.vercel.app
+Live site: https://justinlorenzo.vercel.app
 
 ## Design Direction
 
