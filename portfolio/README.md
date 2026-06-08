@@ -4,6 +4,8 @@ A refined personal portfolio for Justin R. Lorenzo, a Computer Engineering stude
 
 Live site: https://justinlorenzo.vercel.app
 
+![Justin R. Lorenzo Portfolio screenshot](../docs/screenshot.png)
+
 ## Design Direction
 
 This revision is inspired by the calm editorial language of `alchaincyf/huashu-design`: warm off-white surfaces, subtle gold accents, thin borders, soft shadows, light typography, and generous whitespace.

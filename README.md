@@ -4,6 +4,8 @@ Personal portfolio for Justin R. Lorenzo, highlighting frontend projects, studen
 
 Live site: https://justinlorenzo.vercel.app
 
+![Justin R. Lorenzo Portfolio screenshot](./docs/screenshot.png)
+
 ## Project Location
 
 The Vite application source lives in [`portfolio/`](./portfolio).
@@ -24,4 +26,4 @@ npm run dev
 
 ## Quality Gate
 
-GitHub Actions runs install, lint, and production build checks on pushes and pull requests.
+GitHub Actions runs install, audit, lint, and production build checks on pushes and pull requests.
