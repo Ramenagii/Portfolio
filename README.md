@@ -1,5 +1,7 @@
 # Justin R. Lorenzo Portfolio
 
+[![CI](https://github.com/Ramenagii/Portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/Ramenagii/Portfolio/actions/workflows/ci.yml)
+
 Personal portfolio for Justin R. Lorenzo, highlighting frontend projects, student tools, and engineering case studies.
 
 Live site: https://justinlorenzo.vercel.app
