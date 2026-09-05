@@ -27,7 +27,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-stone text-ink">
+    <div className="site-root">
       <Navbar />
       <main>
         <Home />
