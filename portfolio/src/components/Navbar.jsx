@@ -1,7 +1,7 @@
 export default function Navbar() {
   const navItems = [
-    { href: "#about", label: "About" },
     { href: "#work", label: "Work" },
+    { href: "#about", label: "About" },
     { href: "#resume", label: "Resume" },
     { href: "#contact", label: "Contact" },
   ];
@@ -9,7 +9,7 @@ export default function Navbar() {
   return (
     <header className="site-nav">
       <a href="#home" className="brand-mark" aria-label="Justin Lorenzo home">
-        justin lorenzo<span>.</span>
+        Justin R. Lorenzo
       </a>
 
       <nav className="nav-links" aria-label="Primary navigation">
@@ -19,10 +19,6 @@ export default function Navbar() {
           </a>
         ))}
       </nav>
-
-      <a href="mailto:johnjustinrl15@gmail.com" className="nav-cta">
-        Email me
-      </a>
     </header>
   );
 }
