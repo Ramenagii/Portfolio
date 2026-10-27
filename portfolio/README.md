@@ -8,7 +8,7 @@ Live site: https://justinlorenzo.vercel.app
 
 ## Design Direction
 
-This revision is inspired by the calm editorial language of `alchaincyf/huashu-design`: warm off-white surfaces, subtle gold accents, thin borders, soft shadows, light typography, and generous whitespace.
+This revision follows **Rams Quiet Tech**: warm paper (`#f4f2ec`), Swiss-calm IBM Plex Sans, ink/muted type, hairline borders, and a spare blue accent. Slice 1 covers tokens, the uppercase nav, the static home hero, and a scannable project strip. About, Resume, Notes, Contact, and Footer inherit tokens only and will be restyled in later slices.
 
 ## Tech Stack
 
